@@ -12,11 +12,13 @@
         </div>
         <div>
           <!-- pour tronquer l'afffichage du nom de mon produit -->
-          <p class="text-[12px] text-gray-700 font-semibold font-Montserrat
-            truncate max-w-[100px]" :title="nom">{{ nom }}</p>
+          <p class="text-[12px] px-1.5    text-gray-700 font-semibold font-Montserrat
+            truncate max-w-[250px]" :title="nom">{{ nom }}</p>      
+
+ 
         </div>
         <div>
-          <p class="ml-2 font-bold text-[20px] ">{{ prix }} frs</p>
+          <p class="ml-2 font-bold text-[18px]   text-gray-700 ">{{ prix }} FCFA</p>
         </div>
 
         <div class="flex items-center justify-center">
