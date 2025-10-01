@@ -1,52 +1,93 @@
 <template>
-  <router-view />
+  <div class="flex flex-col ">
 
-  <!-- Barre de navigation -->
-  <div class="flex flex-col gap-7  ">
-    <div class="w-full h-[60px] text-white  bg-[#000A2B] flex items-center justify-between px-6 fixed ">
+    <!-- Modal + Overlay -->
+    <div v-if="isCategoriesOpen" class="fixed inset-0 z-50 flex">
+      <!-- Modal Categorie à gauche -->
+      <div>
+        <Categorie @close-categorie="toggleCategories" />
+       
+      </div>
 
+      <!-- Overlay flouté à droite -->
+      <div @click="toggleCategories" class=" opacity-35 bg-black backdrop-blur-[0.8px] w-full">
+      </div>
+    </div>
+
+    <!-- Modal + Overlay pour detailpanier  -->
+    <div v-if="isDetailPanierOpen" class="fixed inset-0 z-50 flex">
+       <!-- Overlay flouté à droite -->
+      <div @click="toggleDetailPanier" class=" opacity-35 bg-black backdrop-blur-[0.8px] w-full">
+      </div>
+      <!-- Modal Categorie à gauche -->
+      <div>
+          <DetailPanier @close-DetailPanier="toggleDetailPanier" v-if="isDetailPanierOpen" />
+      </div>
+
+     
+    </div>
+     
+
+    <!-- Barre de navigation -->
+    <div class="w-full h-[100px] text-white pt-6 bg-[#000A2B] flex justify-between items-center px-6 fixed z-30">
       <!-- Partie gauche -->
-      <div class="flex items-center gap-3 mt-2  ">
-        <!-- lien vers mon modal categorie essaie -->
-        <RouterLink to="/categorie">
-          <div class="text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="w-8 h-8 text-gray-700">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-          </div>
-        </RouterLink>
-        <!-- logo de l'appli -->
-        <div class="">
+      <div class="flex justify-center items-center w-[480px] mt-2">
+        <button @click="toggleCategories" class="mt-4 text-white px-3 py-1 rounded">
+          <!-- Icône hamburger -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-8 h-8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+
+        <!-- Logo -->
+        <div class="flex items-center">
           <Logo />
         </div>
+      </div>
 
+      <!-- Barre de recherche -->
+      <div class="flex justify-center items-center gap-2 text-black">
+        <input type="text" placeholder="Que recherchez-vous ?"
+          class="bg-gray-200 w-[350px] h-[35px] rounded-[7px] px-4">
+        <button class="p-1 bg-amber-100 rounded-[7px] h-[35px] hover:bg-amber-200">Rechercher</button>
       </div>
 
       <!-- Partie droite -->
-      <div class="flex items-center gap-12">
-        <span class="text-lg font-semibold  text-white hover:scale-120">Produit</span>
-        <div class="flex items-center gap-2">
-          <div class="w-[40px] h-[40px] overflow-hidden rounded-full">
-            <img
-              src="./../Assets/image/Riz parfumé mémé Long Grain - 25KG _ Glotelho Cameroun-13-000_files/téléchargerpanier.png"
-              alt="panier" class="w-full h-full object-cover" />
+      <div class="flex justify-center items-center w-[670px] gap-12">
+        <span
+          class="text-lg font-semibold text-white hover:scale-120 hover:bg-amber-100 hover:text-black hover:p-2 hover:rounded-2xl">
+          Produit
+        </span>
+
+        <div class="flex justify-center items-center gap-4">
+          <div class="flex items-center gap-[2px]">
+            <div class="w-[40px] h-[40px] overflow-hidden rounded-full">
+              <img
+                src="./../Assets/image/Riz parfumé mémé Long Grain - 25KG _ Glotelho Cameroun-13-000_files/téléchargerpanier.png"
+                class="w-full h-full object-cover" />
+            </div>
+            <span class="text-xl text-white font-bold">0</span>
           </div>
-          <span class="text-xl text-white font-bold">0</span>
+          <button @click="toggleDetailPanier">
+            <p class="font-semiBold text-white text-lg hover:bg-amber-100 hover:text-black hover:p-2 hover:rounded-2xl">
+              Panier
+            </p>
+          </button>
         </div>
+
         <!-- Icône profil -->
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="w-8 h-8 text-gray-700">
+          class="w-8 h-8 text-white">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
         </svg>
       </div>
     </div>
 
-    <div class="flex justify-center items-center mt-[70px] ">
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  max-w-screen-xl  ">
-        <!-- Boucle pour afficher les produits -->
+    <!-- Section produits -->
+    <div class="flex justify-center items-center mt-[100px]">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-screen-xl">
         <Divs v-for="(product, index) in produits" :key="index" :nom="product.nom" :prix="product.prix"
           :photo="product.photo" />
       </div>
@@ -54,10 +95,41 @@
   </div>
 </template>
 
+
 <script setup>
+import { watch, ref } from 'vue'
 import Logo from '@/components/logo.vue'
 import Divs from '@/components/divs.vue' // votre composant
-import categorie from "@/components/categorie.vue"
+
+
+import Categorie from '@/components/categorie.vue'; // Assurez-vous que le chemin est correct
+
+
+// État réactif pour contrôler l'affichage du composant Categorie
+const isCategoriesOpen = ref(false);
+
+// Fonction pour basculer l'état (true <-> false)
+const toggleCategories = () => {
+  isCategoriesOpen.value = !isCategoriesOpen.value;
+};
+watch(isCategoriesOpen, (isOpen) => {
+  if (isOpen) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+  }
+})
+import DetailPanier from '@/components/detailPanier.vue'
+
+// État réactif pour contrôler l'affichage du composant  DetailPanier
+const isDetailPanierOpen = ref(false);
+
+// // Fonction pour basculer l'état (true <-> false)
+const toggleDetailPanier = () => {
+  isDetailPanierOpen.value = !isDetailPanierOpen.value;
+};
+
+
 
 // Déclaration de la liste des produits
 const produits = [
@@ -66,53 +138,53 @@ const produits = [
   {
     "nom": "Riz Parfumé mémé Long Grain 25KG",
     "prix": 13000,
-    "photo": "src/Assets/image/riz-meme.jpg"
+    "photo": "src/Assets/image/Riz parfumé mémé Long Grain - 25KG _ Glotelho Cameroun-13-000_files/riz-parfume_-me_me_-long-grain-25kg.jpg"
   },
   {
     "nom": " Spaghetti Pasta Gold--500g",
     "prix": 600,
     "photo": "src/Assets/image/spaghetti/spaghetti---pasta-gold---500g-600.jpg"
   },
-    {
+  {
     "nom": "Huile Raffinée - Mayor- Made in Cameroun -1L",
     "prix": 1450,
     "photo": "src/Assets/image/huile/huile-raffine_e---mayor---made-in-cameroun---1l-1500.jpg"
 
   },
-    {
+  {
     "nom": " Spaghetti Pasta first 500g",
     "prix": 500,
     "photo": "src/Assets/image/spaghetti/spaghetti---pasta-first---500g_1.jpg"
   },
- 
+
   // ligne 2
-    {
+  {
     "nom": "Lait concentré Pavani 1kg",
     "prix": 1400,
     "photo": "src/Assets/image/lait/lait-concentr_-sucr_-pavani---1kg-1400.jpg"
   },
-   {
+  {
     "nom": "Matinal-au-lait 200g",
     "prix": 2700,
     "photo": "src/Assets/image/huile/Matinal-au-lait-200g-vente-en-ligne-au-Cameroun-chez-Glotelho_2nd-2 700.jpg"
   },
-    {
+  {
     "nom": "Lait en poudre nido 2500g ",
     "prix": 18000,
     "photo": "src/Assets/image/lait/lait_en_poudre_nido_-_2500g_petit_prix-18 000.jpg"
   },
-    {
+  {
     "nom": "Chocolat-en-poudre 800g ",
     "prix": 3700,
     "photo": "src/Assets/image/lait/chocolat-en-poudre-matinal-800g-3 700.jpg"
   },
   // ligne  3
-   {
-    "nom":"Lingette pour bébé ",
+  {
+    "nom": "Lingette pour bébé ",
     "prix": 700,
     "photo": "src/Assets/image/bebe/lingette_b_b_onlem_-700.jpg"
   },
-   {
+  {
     "nom": "Ensemble ulta doux pour bébé",
     "prix": 8000,
     "photo": "src/Assets/image/bebe/grenouill_re_b_b_1-8000.jpg"
@@ -122,7 +194,7 @@ const produits = [
     "prix": 1500,
     "photo": "src/Assets/image/bebe/couches_jetables_softcare_gold_pour_b_b_-_taille_4_-_6_11_kg-1500.jpg"
   },
- 
+
   {
     "nom": "Protex-Pharmapure 100g charbon",
     "prix": 1000,
@@ -130,12 +202,12 @@ const produits = [
   },
   // ligne4
 
-      {
-    "nom":"Trottinette pour Bebe ",
+  {
+    "nom": "Trottinette pour Bebe ",
     "prix": 70000,
     "photo": "src/Assets/image/bebe/trotteur_b_b_r_glable_3_niveaux_avec_musique_6_-18_mois-70 000.jpg"
   },
-   {
+  {
     "nom": "Couches Sofware Premuin ",
     "prix": 7000,
     "photo": "src/Assets/image/bebe/softcare_-_premium_soft_-_couches_jetables-7 000.jpg"
@@ -145,7 +217,7 @@ const produits = [
     "prix": 1200,
     "photo": "src/Assets/image/bebe/poudre_talc_de_soin-1200.jpg"
   },
-    // ligne5
+  // ligne5
   {
     "nom": "Lotion corporelle super hydratant",
     "prix": 3500,
@@ -157,9 +229,9 @@ const produits = [
     "prix": 1500,
     "photo": "src/Assets/image/bouche/dentifrice_gel_-_colgate_max_fresh_-_menthe_fra_che_-_75_ml-1500.jpg"
   },
- 
+
   {
-    "nom":"dentifrice colgate total active prevention au charbon 75 ml",
+    "nom": "dentifrice colgate total active prevention au charbon 75 ml",
     "prix": 2000,
     "photo": "src/Assets/image/bouche/dentifrice_colgate_-_total_active_prevention_au_charbon_75_ml-2000.jpg"
   },
@@ -175,8 +247,8 @@ const produits = [
     "photo": "src/Assets/image/bouche/colgate_sensitive_pro_relief_-_r_pare_et_pr_vient_75_ml-3500.jpg"
   },
 
-// ligne 6
-    {
+  // ligne 6
+  {
     "nom": "Riz Lion Prestige 25 Kg",
     "prix": 12500,
     "photo": "src/Assets/image/Riz parfumé mémé Long Grain - 25KG _ Glotelho Cameroun-13-000_files/riz_lion_prestige_25kg-13-500.jpg"
@@ -198,14 +270,14 @@ const produits = [
     "prix": 7500,
     "photo": "src/Assets/image/Riz parfumé mémé Long Grain - 25KG _ Glotelho Cameroun-13-000_files/Riz-parfume-royal-umbrella-5kg.jpg"
   },
-     // ligne 7
+  // ligne 7
 
   {
     "nom": " Spaghetti Pasta first",
     "prix": 500,
     "photo": "src/Assets/image/spaghetti/spaghetti---pasta-first---500g_1.jpg"
   },
- 
+
   {
     "nom": "Spaghetti selva",
     "prix": 550,
@@ -223,16 +295,16 @@ const produits = [
     "photo": "src/Assets/image/spaghetti/p_tes_alimentaires_salaka-450.jpg"
   },
 
-    // ligne 8
+  // ligne 8
 
   {
     "nom": " Sanon uno ultra doux",
     "prix": 1000,
     "photo": "src/Assets/image/SAVON/protex_-_pharmapur_-_classique-1 000.jpg"
   },
- 
+
   {
-    "nom":"Savon liquide multi-usage Parfum citron",
+    "nom": "Savon liquide multi-usage Parfum citron",
     "prix": 550,
     "photo": "src/Assets/image/SAVON/savon_liquide_multi-usage_-_succ_s_-_parfum_citron_-_1l_2-1 300.jpg"
   },
@@ -249,7 +321,7 @@ const produits = [
   },
 
   // ligne 9
-    {
+  {
     "nom": "biscuit trufills vanille choco",
     "prix": 200,
     "photo": "src/Assets/image/Biscuit/biscuit_trufills_vanille_choco-200.jpg"
@@ -271,14 +343,14 @@ const produits = [
     "prix": 1200,
     "photo": "src/Assets/image/Biscuit/pack-de-6-biscuits-cremelo-vanilla-1200.jpg"
   },
-     // ligne 10
+  // ligne 10
 
   {
     "nom": " chocolat_mambo_au_lait",
     "prix": 900,
     "photo": "src/Assets/image/Biscuit/chocolat_mambo_au_lait-900.jpg"
   },
- 
+
   {
     "nom": "chocolat-au-riz",
     "prix": 800,
@@ -296,16 +368,16 @@ const produits = [
     "photo": "src/Assets/image/Biscuit/biscuit-cremelo-chocolate_200.jpg"
   },
 
-    // ligne 11
+  // ligne 11
 
   {
     "nom": " carton de  6 bouteilles de vin rouge calvet merlot 75cl",
     "prix": 27000,
     "photo": "src/Assets/image/vin/carton_de_6_bouteilles_de_vin_rouge_calvet_merlot_-_75cl-27000.jpg"
   },
- 
+
   {
-    "nom":"vin rouge merlot grand sud 1litre-",
+    "nom": "vin rouge merlot grand sud 1litre-",
     "prix": 5300,
     "photo": "src/Assets/image/vin/vin_rouge_merlot_grand_sud_1litre-5300.jpg"
   },
@@ -320,14 +392,14 @@ const produits = [
     "prix": 7500,
     "photo": "src/Assets/image/vin/vin_rouge_-_l_toile_de_vincent_2020_bordeaux-7500.jpg"
   },
-     // ligne 12
+  // ligne 12
 
   {
     "nom": " jus de fruit naturel frutas au raisin 1 litre 1",
     "prix": 1100,
     "photo": "src/Assets/image/jus/jus_de_fruit_naturel_-_frutas_-_au_raisin_-_1_litre_1_1000.jpg"
   },
- 
+
   {
     "nom": "jus de fruit naturel frutas  cocktail",
     "prix": 1000,
@@ -345,9 +417,9 @@ const produits = [
     "photo": "src/Assets/image/jus/pack_de_6_jus_nectar_mangue_-_1l_prix_cameroun-7150.jpg"
   },
 
-    // ligne 11
+  // ligne 11
 
-  
+
 
 ];
 

@@ -4,11 +4,11 @@
   <div class="flex ">
 
     <div
-      class=" flex flex-col justify-between m-3.5 w-[200px] h-[250px]   bg-white border-gray-100 rounded shadow p-1.5 hover:scale-110">
+      class=" flex flex-col justify-between m-5 w-[230px] h-[290px]   bg-white border-[0.5px] border-gray-200 rounded shadow-t-xl  p-1.5 hover:scale-110 duration-300">
 
       <div class="flex flex-col gap-1 ">
         <div>
-          <img :src="photo" alt="Produit" class="w-full h-32 object-contain " />
+          <img :src="photo" alt="Produit" class="w-full h-45 object-contain " />
         </div>
         <div>
           <!-- pour tronquer l'afffichage du nom de mon produit -->
@@ -21,9 +21,9 @@
           <p class="ml-2 font-bold text-[18px]   text-gray-700 ">{{ prix }} FCFA</p>
         </div>
 
-        <div class="flex items-center justify-center">
+        <div class="flex justify- items-center ">
           <button
-            class="flex items-center gap-2 px-2 py-2 bg-[#7E0A44] hover:bg-[#9c1160] text-white rounded-lg shadow-md transition duration-300 ease-in-out">
+            class="flex items-center gap-2 px-2 py-2 w-[230px] bg-[#7E0A44] hover:bg-[#9c1160] text-white  rounded-lg shadow-md transition duration-300 ease-in-out">
             Ajouter au panier
             <div class="w-5 h-5 rounded-full overflow-hidden">
               <img
