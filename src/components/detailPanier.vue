@@ -21,7 +21,7 @@
 
         <div class="flex flex-col justify-end gap-2 ">
 
-            <p class="ml-2 font-bold text-[18px]   text-gray-700">Total:.....{{ totalProduit }} FCFA</p>
+            <p class="ml-2 font-bold text-[18px]   text-gray-700">Total:.....FCFA</p>
             <button class="bg-[#F7D036] p-1 rounded-[5px]"> Passer la commande </button>
         </div>
 

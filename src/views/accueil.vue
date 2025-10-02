@@ -1,37 +1,41 @@
 <template>
   <div class="flex flex-col ">
-
+    
+  <!-- MODAL PAGE CATEGORIE -->
     <!-- Modal + Overlay -->
     <div v-if="isCategoriesOpen" class="fixed inset-0 z-50 flex">
       <!-- Modal Categorie à gauche -->
       <div>
         <Categorie @close-categorie="toggleCategories" />
-       
+
       </div>
 
       <!-- Overlay flouté à droite -->
-      <div @click="toggleCategories" class=" opacity-35 bg-black backdrop-blur-[0.8px] w-full">
+      <div @click="toggleCategories" class=" opacity-35 bg-black  w-full">
       </div>
     </div>
 
+    <!-- MODAL PAGE DETAIL PANIER  -->
     <!-- Modal + Overlay pour detailpanier  -->
     <div v-if="isDetailPanierOpen" class="fixed inset-0 z-50 flex">
-       <!-- Overlay flouté à droite -->
-      <div @click="toggleDetailPanier" class=" opacity-35 bg-black backdrop-blur-[0.8px] w-full">
+      <!-- Overlay flouté à droite -->
+      <div @click="toggleDetailPanier" class=" opacity-35 bg-black  w-full">
       </div>
       <!-- Modal Categorie à gauche -->
       <div>
-          <DetailPanier @close-DetailPanier="toggleDetailPanier" v-if="isDetailPanierOpen" />
+        <DetailPanier @close-DetailPanier="toggleDetailPanier" v-if="isDetailPanierOpen" />
       </div>
 
-     
-    </div>
-     
 
+    </div>
+
+  
     <!-- Barre de navigation -->
-    <div class="w-full h-[100px] text-white pt-6 bg-[#000A2B] flex justify-between items-center px-6 fixed z-30">
+    <div class="w-full h-[80px] text-white pt-6 bg-[#000A2B] flex justify-between items-center px-6 fixed z-30">
       <!-- Partie gauche -->
       <div class="flex justify-center items-center w-[480px] mt-2">
+
+        <!-- APPEL DU MODAL CATEGORIE -->
         <button @click="toggleCategories" class="mt-4 text-white px-3 py-1 rounded">
           <!-- Icône hamburger -->
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -61,12 +65,17 @@
         </span>
 
         <div class="flex justify-center items-center gap-4">
+
           <div class="flex items-center gap-[2px]">
-            <div class="w-[40px] h-[40px] overflow-hidden rounded-full">
-              <img
-                src="./../Assets/image/Riz parfumé mémé Long Grain - 25KG _ Glotelho Cameroun-13-000_files/téléchargerpanier.png"
-                class="w-full h-full object-cover" />
-            </div>
+          <!-- APPEL DU MODAL DETAILPANIER -->
+            <button @click="togglePanierProduit">
+              <div class="w-[40px] h-[40px] overflow-hidden rounded-full">
+                <img
+                  src="./../Assets/image/Riz parfumé mémé Long Grain - 25KG _ Glotelho Cameroun-13-000_files/téléchargerpanier.png"
+                  class="w-full h-full object-cover" />
+              </div>
+            </button>
+
             <span class="text-xl text-white font-bold">0</span>
           </div>
           <button @click="toggleDetailPanier">
@@ -84,6 +93,22 @@
         </svg>
       </div>
     </div>
+    <!-- Modal PanierProduit centré -->
+    <div v-if="isPanierProduit" class="fixed inset-0 z-50 ">
+      <!-- Overlay flouté derrière -->
+      <div @click="togglePanierProduit" class="absolute inset-0 bg-black opacity-35 backdrop-blur-[0.8px] z-40">
+      </div>
+
+      <!-- Contenu du modal centré -->
+      <div @click.stop class="absolute inset-0 flex items-center justify-center z-50">
+        
+        <div
+          class="flex flex-col justify-between items-center gap-12 p-1 bg-white  shadow-2xl rounded-[5px] h-[630px] w-[1100px] mt-[100px] ">
+          <PanierProduit @close-PanierProduit="togglePanierProduit" />
+        </div>
+      </div>
+    </div>
+
 
     <!-- Section produits -->
     <div class="flex justify-center items-center mt-[100px]">
@@ -99,18 +124,37 @@
 <script setup>
 import { watch, ref } from 'vue'
 import Logo from '@/components/logo.vue'
-import Divs from '@/components/divs.vue' // votre composant
+import Divs from '@/components/divs.vue' 
 
 
-import Categorie from '@/components/categorie.vue'; // Assurez-vous que le chemin est correct
+import Categorie from '@/components/categorie.vue';
+import DetailPanier from '@/components/detailPanier.vue'
+import PanierProduit from './panierProduit.vue';
+
+// MODAL PAGE PANIERVIDE
+const isPanierProduit = ref(false)
+
+// // Fonction pour basculer l'état (true <-> false)
+const togglePanierProduit = () => {
+  isPanierProduit.value = !isPanierProduit.value;
+};
 
 
-// État réactif pour contrôler l'affichage du composant Categorie
+//MODAL PAGE CATEGORIE
 const isCategoriesOpen = ref(false);
 
 // Fonction pour basculer l'état (true <-> false)
 const toggleCategories = () => {
   isCategoriesOpen.value = !isCategoriesOpen.value;
+};
+
+
+//MODal page  DETAILPANIER
+const isDetailPanierOpen = ref(false);
+
+// // Fonction pour basculer l'état (true <-> false)
+const toggleDetailPanier = () => {
+  isDetailPanierOpen.value = !isDetailPanierOpen.value;
 };
 watch(isCategoriesOpen, (isOpen) => {
   if (isOpen) {
@@ -119,15 +163,21 @@ watch(isCategoriesOpen, (isOpen) => {
     document.body.style.overflow = ''
   }
 })
-import DetailPanier from '@/components/detailPanier.vue'
 
-// État réactif pour contrôler l'affichage du composant  DetailPanier
-const isDetailPanierOpen = ref(false);
-
-// // Fonction pour basculer l'état (true <-> false)
-const toggleDetailPanier = () => {
-  isDetailPanierOpen.value = !isDetailPanierOpen.value;
-};
+watch(isDetailPanierOpen, (isOpen) => {
+  if (isOpen) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+  }
+})
+watch(isPanierProduit, (isOpen) => {
+  if (isOpen) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+  }
+})
 
 
 
