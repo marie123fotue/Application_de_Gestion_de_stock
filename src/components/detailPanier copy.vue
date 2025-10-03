@@ -19,7 +19,7 @@ function supprimerProduit(produit) {
 </script>
 
 <template>
-  <div class="flex flex-col w-[280px] h-[740px] rounded-[10px] bg-white shadow font-Montserrat">
+  <div class="flex flex-col w-[280px] h-[600px] rounded-[10px] bg-white shadow font-Montserrat">
     <!-- Titre -->
     <div class="flex justify-between items-center w-full h-[50px] bg-gray-100 px-2 text-black hover:bg-amber-100 p-1">
       <p class="font-semibold">Detail de votre Panier</p>
