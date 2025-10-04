@@ -1,7 +1,14 @@
 <template>
     <div v-if="CartStore.produitsPanier.length === 0">
-        <div class="flex flex-col bg-white rounded-lg z-50 opacity-55 gap-10 ">
+        <div class="flex flex-col bg-white rounded-lg z-50 opacity-55 gap-2 ">
             <panierProduit/> 
+         <div class="flex flex-col gap-1">
+            <p>Resumé de la commande </p>
+               <div class="flex flex-col shadow-2xl w-[200px] h-[100px]">
+                
+
+            </div>
+         </div>
         </div>
     </div>
     <div v-else>

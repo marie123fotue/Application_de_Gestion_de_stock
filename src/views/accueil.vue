@@ -69,15 +69,7 @@
       </div>
     </div>
 
-    <!-- <div v-if="isPanierProduit" class="fixed inset-0 z-50">
-      <div @click="togglePanierProduit" class="absolute inset-0 bg-black opacity-35 backdrop-blur-[0.8px] z-40"></div>
-      <div @click.stop class="absolute inset-0 flex items-center justify-center z-50">
-        <div
-          class="flex flex-col justify-between items-center gap-12 p-1 bg-white shadow-2xl rounded-[5px] h-[630px] w-[1100px] mt-[100px]">
-          <PanierProduit @close-PanierProduit="togglePanierProduit" />
-        </div>
-      </div>
-    </div> -->
+ 
 
     <div class="flex justify-center items-center mt-[100px]">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-screen-xl">
