@@ -1,9 +1,8 @@
 <script setup>
 import ComposantDetailpanier from '@/components/composantDetailpanier.vue'
 
-import { useDivPanierstore } from '@/stores/divPanier'
-const DivPanierstore =useDivPanierstore()
-
+import { useCartStore } from '@/stores/cart'
+const CartStore = useCartStore()
 
 // ✅ Déclarer tous les événements utilisés, y compris 'close-DetailPanier'
 const emit = defineEmits(['update:produitsPanier', 'close-DetailPanier'])
@@ -11,32 +10,19 @@ const emit = defineEmits(['update:produitsPanier', 'close-DetailPanier'])
 //CORRECTION MAJEURE: NE PAS modifier la prop (props.produitsPanier.splice).
 // On crée un nouveau tableau et on l'émet.
 function supprimerProduit(produit) {
-  const nouveauPanier =DivPanierstore.produitsPanier.filter(p => p.nom !== produit.nom);
+  const nouveauPanier = props.produitsPanier.filter(p => p.nom !== produit.nom);
   
   // Émet le nouveau tableau pour que le composant parent mette à jour sa variable.
   emit('update:produitsPanier', nouveauPanier);
 }
 
 
-// function supprimerProduit(produit) {
-//   const index = props.produitsPanier.findIndex(p => p.nom === produit.nom)
-//   if (index !== -1) {
-//     props.produitsPanier.splice(index, 1)
-//   }
-// }
-// const prixTotal = computed(() => {
-//   return props.produitsPanier.reduce((total, produit) => {
-//     // Calcul sécurisé (prix * quantité)
-//     const prix = parseFloat(produit.prix)
-//     const quantite = parseInt(produit.quantite)
-//     return total + (prix * quantite);
-//   }, 0).toFixed(2);
-// });
+
 </script>
 
 
 <template>
-        <div class="flex flex-col w-[280px] h-[600px] rounded-[10px] bg-white shadow font-Montserrat">
+        <div class="flex flex-col w-[280px] h-[720px] rounded-[10px] bg-white shadow font-Montserrat">
           <div
             class="flex justify-between items-center w-full h-[50px] bg-gray-100 px-2 text-black hover:bg-amber-100 p-1">
             <p class="font-semibold">Detail de votre Panier</p>
@@ -49,15 +35,15 @@ function supprimerProduit(produit) {
           </div>
 
           <div class="flex-1 overflow-y-auto ">
-            <ComposantDetailpanier v-for="(product, index) in DivPanierstore.produitsPanier" :key="index" :product="product"
+            <ComposantDetailpanier v-for="(product, index) in CartStore.produitsPanier" :key="index" :product="product"
               @delete-product="supprimerProduit" />
           </div>
 
           <div class="border-t px-2 py-3 bg-white">
-            <p class="font-bold text-[18px] text-gray-700">Total: {{ DivPanierstore.prixTotal }} FCFA</p>
-            <button class="bg-[#F7D036] p-1 rounded-[5px] w-full mt-2">Passer la commande</button>
+            <p class="font-bold text-[18px] text-gray-700">Total: {{ CartStore.prixTotal }} FCFA</p>
+            <button ></button>
+            <RouterLink to="/panierProduit" class="bg-[#F7D036] p-1 rounded-[5px] w-full mt-2"> Passer la commande</RouterLink>
           </div>
-          
         </div>
         
     

@@ -1,4 +1,4 @@
-/<template>
+<template>
   <RouterView/>
   <div class="flex flex-col">
     <!-- page categorie -->
@@ -20,8 +20,8 @@
       </div>
     </div>
 
-    <div class="w-full h-[80px] text-white pt-6 bg-[#000A2B] flex justify-between items-center px-6 fixed z-30">
-      <div class="flex justify-center items-center w-[480px] mt-2">
+    <div class="w-full h-[80px] text-white pt-6 bg-[#000A2B] flex justify-between items-center px-4 fixed z-30">
+      <div class="flex justify-center items-center w-[450px] mt-2">
         <button @click="toggleCategories" class="mt-4 text-white px-3 py-1 rounded">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="w-8 h-8">
@@ -40,12 +40,14 @@
             hover:text-black p-2 duration-300 hover:rounded-2xl">Rechercher</button>
       </div>
 
-      <div class="flex justify-center items-center w-[670px] gap-12">
-        <span
-          class="font-semiBold text-white text-lg hover:bg-amber-100
-            hover:text-black p-2 duration-300 hover:rounded-2xl">
-          Produit
-        </span>
+      <div class="flex justify-center items-center w-[670px] gap-8">
+      
+          
+            <RouterLink to="/produit" class="font-semiBold text-white text-lg hover:bg-amber-100
+            hover:text-black p-2 duration-300 hover:rounded-2xl">Produit</RouterLink>
+             <RouterLink to="/categorie" class="font-semiBold text-white text-lg hover:bg-amber-100
+            hover:text-black p-2 duration-300 hover:rounded-2xl">Categorie</RouterLink>
+         
         <div class="flex justify-center items-center gap-4">
           <div class="flex items-center gap-[2px]">
             <button @close-Detailpanier="toggleDetailPanier"> 
@@ -61,11 +63,13 @@
              Panier
           </RouterLink>
         </div>
+         <RouterLink to="/">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="w-8 h-8 text-white">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
         </svg>
+        </RouterLink>
       </div>
     </div>
 
