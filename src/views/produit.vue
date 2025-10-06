@@ -46,7 +46,7 @@
         >
           <option disabled value="">Sélectionnez une catégorie</option>
           <option v-for="cat in categorieStore.categoriesProduit" :key="cat" :value="cat">
-            {{ cat }}
+            {{ cat.nom }}
           </option>
         </select>
       </div>
@@ -80,7 +80,7 @@
 
         <button
           type="submit"
-          class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md transition duration-200"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md transition duration-200"  @add-categorie="addcategorie"
         >
           {{ editingIndex === null ? 'Ajouter le produit' : 'Modifier le produit' }}
         </button>

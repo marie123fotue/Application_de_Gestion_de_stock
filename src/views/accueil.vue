@@ -1,5 +1,5 @@
 <template>
-  <RouterView/>
+  <RouterView />
   <div class="flex flex-col">
     <!-- page categorie -->
     <div v-if="isCategoriesOpen" class="fixed inset-0 z-50 flex">
@@ -13,9 +13,7 @@
     <div v-if="isDetailPanierOpen" class="fixed inset-0 z-50 flex">
       <div @click="toggleDetailPanier" class="opacity-38 bg-black w-full"></div>
       <div>
-        <DetailPanier 
-          :produitsPanier="CartStore.produitsPanier" 
-          @closeDetailPanier="toggleDetailPanier" 
+        <DetailPanier :produitsPanier="CartStore.produitsPanier" @closeDetailPanier="toggleDetailPanier"
           @update-produitsPanier="handleUpdatePanier" />
       </div>
     </div>
@@ -41,39 +39,43 @@
       </div>
 
       <div class="flex justify-center items-center w-[670px] gap-8">
-      
-          
-            <RouterLink to="/produit" class="font-semiBold text-white text-lg hover:bg-amber-100
+
+
+        <RouterLink to="/produit" class="font-semiBold text-white text-lg hover:bg-amber-100
             hover:text-black p-2 duration-300 hover:rounded-2xl">Produit</RouterLink>
-             <RouterLink to="/categorie" class="font-semiBold text-white text-lg hover:bg-amber-100
+        <RouterLink to="/categorie" class="font-semiBold text-white text-lg hover:bg-amber-100
             hover:text-black p-2 duration-300 hover:rounded-2xl">Categorie</RouterLink>
-         
+
         <div class="flex justify-center items-center gap-4">
           <div class="flex items-center gap-[2px]">
-            <button @close-Detailpanier="toggleDetailPanier"> 
+            <button @close-Detailpanier="toggleDetailPanier">
               <div class="w-[40px] h-[40px] overflow-hidden rounded-full">
-                <img src="./../Assets/image/Riz parfumé mémé Long Grain - 25KG _ Glotelho Cameroun-13-000_files/téléchargerpanier.png"
+                <img
+                  src="./../Assets/image/Riz parfumé mémé Long Grain - 25KG _ Glotelho Cameroun-13-000_files/téléchargerpanier.png"
                   class="w-full h-full object-cover" />
               </div>
             </button>
             <span class="text-xl text-amber-100 font-bold">{{ CartStore.produitsPanier.length }}</span>
           </div>
           <RouterLink to="/panierProduit" class="font-semiBold text-white text-lg hover:bg-amber-100
-             p-2 duration-300 hover:rounded-2xl"> 
-             Panier
+             p-2 duration-300 hover:rounded-2xl">
+            Panier
           </RouterLink>
         </div>
-         <RouterLink to="/">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="w-8 h-8 text-white">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-        </svg>
-        </RouterLink>
+        <div class="flex gap-0.5">
+          <RouterLink to="/">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-8 h-8 text-white">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+          </RouterLink>
+          <label for="" class="font-semiblod text-amber-100 ">Bienvenue, {{ userStore.user?.nom }}</label>
+        </div>
       </div>
     </div>
 
- 
+
 
     <div class="flex justify-center items-center mt-[100px]">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-screen-xl">
@@ -92,6 +94,8 @@ import DetailPanier from '@/components/detailPanier.vue'
 import { useCartStore } from '@/stores/cart'
 
 const CartStore = useCartStore()
+import { useUserCustomerStore } from '@/stores/user'
+const userStore = useUserCustomerStore()
 
 
 // États des modales
@@ -106,7 +110,7 @@ const toggleDetailPanier = () => isDetailPanierOpen.value = !isDetailPanierOpen.
 
 // ✅ NOUVELLE FONCTION CRITIQUE : Reçoit le nouveau tableau de DetailPanier et met à jour l'état local.
 function handleUpdatePanier(nouveauPanier) {
-    CartStore.produitsPanier.value = nouveauPanier;
+  CartStore.produitsPanier.value = nouveauPanier;
 }
 
 // Ajout d’un produit au panier
@@ -122,7 +126,7 @@ function watchingProduit(modalRef) {
   })
 }
 watchingProduit(isCategoriesOpen)
- watchingProduit(isDetailPanierOpen)
+watchingProduit(isDetailPanierOpen)
 
 // Déclaration de la liste des produits
 const produits = [

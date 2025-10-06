@@ -53,7 +53,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(cat, index) in categories" :key="index" class="border-t">
+          <tr v-for="(cat, index) in cartstore.categoriesProduit" :key="index" class="border-t">
             <td class="px-4 py-2">{{ cat.nom }}</td>
             <td class="px-4 py-2">{{ cat.description }}</td>
             <td class="px-4 py-2 flex gap-2">
@@ -61,23 +61,22 @@
               <button @click="deleteCategorie(index)" class="text-red-600 hover:underline">Supprimer</button>
             </td>
           </tr>
-          <tr v-if="categories.length === 0">
+          <tr v-if="cartstore.categoriesProduit.length === 0">
             <td colspan="3" class="text-center text-gray-500 py-4">Aucune catégorie pour le moment</td>
           </tr>
         </tbody>
       </table>
-      <router-link to="/accueil" class="text-blue-950  text-[15px] font-bold underline duration-300">Retournez
-                l'accueil 👌</router-link>
+      <router-link to="/accueil" class="text-blue-950 text-[15px] font-bold underline duration-300">
+        Retournez à l'accueil 👌
+      </router-link>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-
-// Liste des catégories locales (tu peux les remplacer par celles du store si nécessaire)
-
-const categories = ref([])
+import { useCartStore } from '@/stores/cart'
+const cartstore = useCartStore()
 
 const form = ref({
   nom: '',
@@ -90,23 +89,23 @@ function handleSubmit() {
   const data = { ...form.value }
 
   if (editingIndex.value === null) {
-    categories.value.push(data)
+    cartstore.addCategorie(data)  // ✅ appel de la méthode Pinia corrigée
   } else {
-    categories.value[editingIndex.value] = data
+    cartstore.categoriesProduit[editingIndex.value] = data
   }
 
   resetForm()
 }
 
 function editCategorie(index) {
-  const cat = categories.value[index]
+  const cat = cartstore.categoriesProduit[index]
   form.value = { ...cat }
   editingIndex.value = index
 }
 
 function deleteCategorie(index) {
   if (confirm('Voulez-vous vraiment supprimer cette catégorie ?')) {
-    categories.value.splice(index, 1)
+    cartstore.categoriesProduit.splice(index, 1)
     if (editingIndex.value === index) {
       resetForm()
     }
