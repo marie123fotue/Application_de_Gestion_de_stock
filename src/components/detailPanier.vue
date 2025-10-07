@@ -40,7 +40,7 @@ function supprimerProduit(produit) {
           </div>
 
           <div class="border-t px-2 py-3 bg-white">
-            <p class="font-bold text-[18px] text-gray-700">Total: {{ CartStore.prixTotal }} FCFA</p>
+            <p class="font-bold text-[18px] text-gray-700">Total: {{ CartStore.prixTotal }} F CFA</p>
             <button ></button>
             <RouterLink to="/panierProduit" class="bg-[#F7D036] p-1 rounded-[5px] w-full mt-2"> Passer la commande</RouterLink>
           </div>

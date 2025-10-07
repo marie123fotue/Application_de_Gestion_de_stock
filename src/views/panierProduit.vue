@@ -5,7 +5,7 @@
          
         </div>
     </div>
- <div v-else class="flex ">
+ <div v-else class="flex justify-center items-center gap-6 ">
 
       <div class="md:w-1/2 bg-white shadow-xl rounded-xl p-4 flex flex-col justify-center items-center">
         <h2 class="text-2xl font-bold text-gray-800 border-b pb-2 mb-4">Détail des Articles ({{ CartStore.produitsPanier.length }})</h2>

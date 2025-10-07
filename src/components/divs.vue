@@ -12,7 +12,7 @@
             truncate max-w-[250px]" :title="product.nom">{{ product.nom }}</p>
       </div>
       <div>
-        <p class="ml-2 font-bold text-[18px]   text-gray-700 ">{{ product.prix }} FCFA</p>
+        <p class="ml-2 font-bold text-[18px]   text-gray-700 ">{{ product.prix }} F CFA</p>
       </div>
 
       <div class="flex justify- items-center ">
@@ -43,4 +43,6 @@ function addProduct(product) {
 defineProps({
   product: Object,
 });
+ import { useCartStore } from '@/stores/cart';
+ const CartStore=useCartStore()
 </script>
