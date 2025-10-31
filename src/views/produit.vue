@@ -192,6 +192,6 @@ function resetForm() {
     image: null,
     preview: null,
   }
-  editingIndex.value = null
+  editingIndex.value = null;
 }
 </script>
