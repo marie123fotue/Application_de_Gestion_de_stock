@@ -1,8 +1,1 @@
-
-@import 'tailwindcss';
-
-
-:root {
-    --color:#7E0A44;
-    --color-nav:#000A2B;
-}
+@import "tailwindcss";

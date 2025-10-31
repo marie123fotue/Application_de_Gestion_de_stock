@@ -20,7 +20,6 @@ export const useCartStore = defineStore("cart", () => {
   ])
   const produitsPanier = ref([])
 
-  // Déclaration de la liste des  🛒 Produits du panier
 const produits = ref ( [
   // Ligne 1
   { "nom": "Riz Parfumé mémé Long Grain 25KG", "prix": 13000, "photo": "src/Assets/image/Riz parfumé mémé Long Grain - 25KG _ Glotelho Cameroun-13-000_files/riz-parfume_-me_me_-long-grain-25kg.jpg" },
@@ -82,7 +81,8 @@ const produits = ref ( [
   { "nom": "jus de fruit naturel frutas cocktail", "prix": 1000, "photo": "src/Assets/image/jus/jus_de_fruit_naturel_-_frutas_-_cocktail_1-1000.jpg" },
   { "nom": "jus de fruit naturel frutas orange", "prix": 1000, "photo": "src/Assets/image/jus/jus_de_fruit_naturel_frutas_orange_1_litre-1000.jpg" },
   { "nom": "pack de 6 jus nectar mangue 1l", "prix": 200, "photo": "src/Assets/image/jus/pack_de_6_jus_nectar_mangue_-_1l_prix_cameroun-7150.jpg" },
-]); 
+]);   // Déclaration de la liste des  🛒 Produits du panier
+
 
    function addProduct(product) {
         const existeDeja = produitsPanier.value.some(p => p.nom === product.nom)

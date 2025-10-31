@@ -1,14 +1,13 @@
 <template>
+  
   <RouterView />
-
   <!-- NAVBAR FIXE -->
   <div class="w-full h-[80px] text-white bg-[#000A2B] fixed z-30 flex justify-between items-center px-4 md:px-8">
     <!-- Logo + Burger -->
     <div class="flex items-center gap-4">
       <button @click="toggleCategories" class="md:hidden">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
       <Logo />
@@ -43,8 +42,7 @@
     <!-- Bouton menu mobile -->
     <button @click="toggleMobileMenu" class="md:hidden">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M4 6h16M4 12h16M4 18h16" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
   </div>
@@ -67,7 +65,7 @@
   <!-- CONTENU PRINCIPAL -->
   <div class="mt-[100px] px-4">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-screen-xl mx-auto">
-      <Divs v-for="(product, index) in CartStore.produits" :key="index" :product="product" @add-product="addProduct" />
+      <Divs v-for="(product, index) in produits" :key="index" :product="product" @add-product="addProduct" />
     </div>
   </div>
 
@@ -82,16 +80,20 @@
     <DetailPanier :produitsPanier="CartStore.produitsPanier" @closeDetailPanier="toggleDetailPanier"
       @update-produitsPanier="handleUpdatePanier" />
   </div>
+
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import Logo from '@/components/logo.vue'
 import Divs from '@/components/divs.vue'
 import Categorie from '@/components/categorie.vue'
 import DetailPanier from '@/components/detailPanier.vue'
 import { useCartStore } from '@/stores/cart'
 import { useUserCustomerStore } from '@/stores/user'
+import axios from 'axios'
+
+
 
 const CartStore = useCartStore()
 const userStore = useUserCustomerStore()
@@ -99,10 +101,24 @@ const userStore = useUserCustomerStore()
 const isCategoriesOpen = ref(false)
 const isDetailPanierOpen = ref(false)
 const isMobileMenuOpen = ref(false)
-
+const produits = ref([])
 const toggleCategories = () => isCategoriesOpen.value = !isCategoriesOpen.value
 const toggleDetailPanier = () => isDetailPanierOpen.value = !isDetailPanierOpen.value
 const toggleMobileMenu = () => isMobileMenuOpen.value = !isMobileMenuOpen.value
+
+onMounted(() => {
+
+  axios.get('http://127.0.0.1:8000/api/produits').then((respons) => {
+    produits.value = respons.data
+  })
+
+})
+function createproduct() {
+  axios.post('http://127.0.0.1:8000/api/produits', { nom: 'spaghetti', prix: 500, description: 'bonne qualite', categorie_id: 1 }).then((respons) => {
+    console.log(respons.data)
+  })
+}
+
 
 function handleUpdatePanier(nouveauPanier) {
   CartStore.produitsPanier.value = nouveauPanier
@@ -118,6 +134,7 @@ function watchingProduit(modalRef) {
     document.body.style.overflow = isOpen ? 'hidden' : ''
   })
 }
+
 watchingProduit(isCategoriesOpen)
 watchingProduit(isDetailPanierOpen)
 watchingProduit(isMobileMenuOpen)
