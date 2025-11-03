@@ -1,122 +1,199 @@
 <template>
-  <div class="p-6 max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold mb-6 text-center">Gestion des Catégories</h1>
+  <div class="min-h-screen bg-gray-50 p-4 md:p-6">
+    <!-- En-tête avec titre et bouton retour -->
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Gestion des Catégories</h1>
+      <router-link 
+        to="/accueil" 
+        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
+      >
+        <span>← Retour à l'accueil</span>
+      </router-link>
+    </div>
+
+    <!-- Barre de recherche -->
+    <div class="bg-white shadow-md rounded-lg p-4 mb-6 flex items-center justify-between gap-2 flex-wrap">
+      <div class="relative flex-1 min-w-[200px]">
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="🔍 Rechercher..."
+          class="w-full border border-gray-300 rounded-lg px-4 py-3 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+    </div>
 
     <!-- Formulaire -->
-    <form @submit.prevent="handleSubmit" class="bg-white shadow-md rounded-lg p-6 mb-8 grid gap-4">
-      <div class="flex flex-col">
-        <label class="font-semibold mb-1">Nom de la catégorie :</label>
-        <input
-          v-model="form.nom"
-          type="text"
-          required
-          class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6 w-full max-w-3xl mx-auto">
+      <h2 class="text-xl font-semibold mb-4">Ajouter / Modifier une catégorie</h2>
+      <form @submit.prevent="handleSubmit" class="grid gap-4">
+        <div>
+          <label class="block mb-1 font-semibold">Nom :</label>
+          <input v-model="form.nom" type="text" required
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label class="block mb-1 font-semibold">Description :</label>
+          <textarea v-model="form.description" rows="3"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+        <div class="flex justify-end gap-2 mt-4 flex-wrap">
+          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold">
+            {{ editingIndex === null ? 'Ajouter' : 'Modifier' }}
+          </button>
+          <button v-if="editingIndex !== null" type="button" @click="resetForm"
+            class="text-red-500 hover:text-red-600 font-semibold px-4 py-2 rounded-lg">
+            Annuler
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Version mobile (cartes) -->
+    <div class="block md:hidden">
+      <div v-for="(categorie, index) in categoriebd" :key="categorie.id" class="border-b last:border-b-0 p-4">
+        <div class="flex gap-4">
+          <div class="flex-1">
+            <h3 class="font-semibold text-lg">{{ categorie.nom }}</h3>
+            <p class="text-gray-600">{{ categorie.description }}</p>
+          </div>
+        </div>
+        <div class="flex justify-center items-center gap-4 mt-3">
+          <button @click="editCategorie(index)"
+            class="flex w-[150px] py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 font-semibold rounded-md transition">
+            ✏️ Modifier
+          </button>
+          <button @click="deleteCategorie(index)"
+            class="flex justify-center items-center w-[150px] gap-2 bg-red-50 text-red-600 hover:bg-red-100 font-semibold py-2 rounded-md transition">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+            </svg>Supprimer
+          </button>
+        </div>
       </div>
-
-      <div class="flex flex-col">
-        <label class="font-semibold mb-1">Description :</label>
-        <textarea
-          v-model="form.description"
-          rows="3"
-          class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        ></textarea>
+      <div v-if="filteredCategories && filteredCategories.length === 0" class="text-center text-gray-500 py-8">
+        Aucun produit trouvé
       </div>
+    </div>
 
-      <div class="flex justify-end gap-4 mt-2">
-        <button
-          type="submit"
-          class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md"
-        >
-          {{ editingIndex === null ? 'Ajouter la catégorie' : 'Modifier la catégorie' }}
-        </button>
-
-        <button
-          v-if="editingIndex !== null"
-          type="button"
-          @click="resetForm"
-          class="text-red-500 hover:text-red-600 font-semibold"
-        >
-          Annuler
-        </button>
-      </div>
-    </form>
-
-    <!-- Tableau -->
+    <!-- Tableau responsive -->
     <div class="overflow-x-auto">
       <table class="min-w-full bg-white shadow-md rounded-lg">
-        <thead class="bg-gray-100">
+        <thead class="bg-gray-100 border-b-2 border-gray-200">
           <tr>
-            <th class="text-left px-4 py-2">Nom</th>
-            <th class="text-left px-4 py-2">Description</th>
-            <th class="text-left px-4 py-2">Actions</th>
+            <th class="px-4 py-3 text-left font-semibold">Nom</th>
+            <th class="px-4 py-3 text-left font-semibold">Description</th>
+            <th class="px-4 py-3 text-center font-semibold">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(cat, index) in cartstore.categoriesProduit" :key="index" class="border-t">
-            <td class="px-4 py-2">{{ cat.nom }}</td>
-            <td class="px-4 py-2">{{ cat.description }}</td>
-            <td class="px-4 py-2 flex gap-2">
-              <button @click="editCategorie(index)" class="text-blue-600 hover:underline">Modifier</button>
-              <button @click="deleteCategorie(index)" class="text-red-600 hover:underline">Supprimer</button>
+          <tr v-for="(cat, index) in filteredCategories" :key="cat.id" class="border-t hover:bg-gray-50 transition">
+            <td class="px-4 py-3">{{ cat.nom }}</td>
+            <td class="px-4 py-3">{{ cat.description }}</td>
+            <td class="px-4 py-3 flex justify-center gap-2">
+              <div class="flex justify-center items-center gap-4 mt-3">
+                <button @click="editCategorie(index)"
+                  class="w-full sm:w-auto py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 font-semibold rounded-md transition">
+                  ✏️ Modifier
+                </button>
+                <button @click="deleteCategorie(index)"
+                  class="w-full sm:w-auto py-2 bg-red-50 text-red-600 hover:bg-red-100 font-semibold rounded-md transition flex items-center justify-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                  </svg>Supprimer
+                </button>
+              </div>
             </td>
           </tr>
-          <tr v-if="cartstore.categoriesProduit.length === 0">
-            <td colspan="3" class="text-center text-gray-500 py-4">Aucune catégorie pour le moment</td>
+          <tr v-if="filteredCategories && filteredCategories.length === 0">
+            <td colspan="3" class="text-center py-8 text-gray-500">
+              Aucune catégorie pour le moment
+            </td>
           </tr>
         </tbody>
       </table>
-      <router-link to="/accueil" class="text-blue-950 text-[15px] font-bold underline duration-300">
-        Retournez à l'accueil 👌
-      </router-link>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useCartStore } from '@/stores/cart'
-const cartstore = useCartStore()
+import { ref, onMounted, computed } from 'vue'
+import axios from 'axios'
 
-const form = ref({
-  nom: '',
-  description: '',
+const categoriebd = ref([])
+const searchQuery = ref('')
+const form = ref({ nom: '', description: '' })
+const editingIndex = ref(null)
+
+// Charger les catégories
+onMounted(async () => {
+  try {
+    const reponse = await axios.get('http://127.0.0.1:8000/api/categories')
+    categoriebd.value = reponse.data
+  } catch (err) {
+    console.error('Erreur:', err)
+  }
 })
 
-const editingIndex = ref(null)
+// Filtre
+const filteredCategories = computed(() => {
+  if (!categoriebd.value || !Array.isArray(categoriebd.value)) return []
+  if (!searchQuery.value) return categoriebd.value
+  const q = searchQuery.value.toLowerCase()
+  return categoriebd.value.filter(c =>
+    c.nom.toLowerCase().includes(q) ||
+    c.description.toLowerCase().includes(q)
+  )
+})
 
 function handleSubmit() {
   const data = { ...form.value }
-
   if (editingIndex.value === null) {
-    cartstore.addCategorie(data)  // ✅ appel de la méthode Pinia corrigée
+    axios.post('http://127.0.0.1:8000/api/categories', data)
+      .then(res => {
+        categoriebd.value.push(res.data)
+        resetForm()
+      })
+      .catch(err => console.error('Erreur:', err))
   } else {
-    cartstore.categoriesProduit[editingIndex.value] = data
+    const id = categoriebd.value[editingIndex.value]?.id
+    if (!id) return
+    axios.put(`http://127.0.0.1:8000/api/categories/${id}`, data)
+      .then(res => {
+        categoriebd.value[editingIndex.value] = res.data
+        resetForm()
+      })
+      .catch(err => console.error('Erreur:', err))
   }
-
-  resetForm()
 }
 
 function editCategorie(index) {
-  const cat = cartstore.categoriesProduit[index]
-  form.value = { ...cat }
+  const cat = categoriebd.value[index]
+  form.value = { nom: cat.nom, description: cat.description }
   editingIndex.value = index
 }
 
 function deleteCategorie(index) {
-  if (confirm('Voulez-vous vraiment supprimer cette catégorie ?')) {
-    cartstore.categoriesProduit.splice(index, 1)
-    if (editingIndex.value === index) {
-      resetForm()
-    }
+  const cat = categoriebd.value[index]
+  if (confirm(`Supprimer "${cat.nom}" ?`)) {
+    axios.delete(`http://127.0.0.1:8000/api/categories/${cat.id}`)
+      .then(() => {
+        categoriebd.value.splice(index, 1)
+        if (editingIndex.value === index) resetForm()
+      })
+      .catch(err => console.error('Erreur:', err))
   }
 }
 
 function resetForm() {
-  form.value = {
-    nom: '',
-    description: '',
-  }
+  form.value = { nom: '', description: '' }
   editingIndex.value = null
 }
 </script>

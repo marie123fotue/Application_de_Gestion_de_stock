@@ -89,7 +89,7 @@ function seConnecter() {
             @click="seConnecter"
             class="flex justify-center items-center border-none p-1.5 rounded-[18px] shadow-xl bg-pink-700 hover:bg-pink-950 text-white"
           >
-            Se Déconnecter
+            Se Connecter
           </button>
 
           <router-view />
