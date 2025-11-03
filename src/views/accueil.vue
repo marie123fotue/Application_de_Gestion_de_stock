@@ -25,7 +25,7 @@
       <RouterLink to="/categorie" class="hover:text-amber-200">Categorie</RouterLink>
       <RouterLink to="/panierProduit" class="hover:text-amber-200">Panier</RouterLink>
       <div class="flex items-center gap-2">
-        <img src="..." class="w-8 h-8 rounded-full" />
+        <img  class="w-8 h-8 rounded-full" />
         <span>{{ CartStore.produitsPanier?.length || 0 }}</span>
       </div>
       <div class="flex items-center gap-1">
@@ -55,7 +55,7 @@
       <RouterLink to="/categorie" class="block text-lg hover:text-amber-200">Categorie</RouterLink>
       <RouterLink to="/panierProduit" class="block text-lg hover:text-amber-200">Panier</RouterLink>
       <div class="flex items-center gap-2 mt-4">
-        <img src="..." class="w-8 h-8 rounded-full" />
+        <img src="./../Assets/image/Biscuit/biscuit-cremelo-chocolate-200.jpg" class="w-8 h-8 rounded-full" />
         <span class="text-amber-100 font-bold">{{ CartStore.produitsPanier?.length || 0 }}</span>
       </div>
       <div class="text-amber-100">Bienvenue, {{ userStore.user?.nom || 'Invité' }}</div>
