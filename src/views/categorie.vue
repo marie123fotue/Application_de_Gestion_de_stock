@@ -216,15 +216,15 @@ const filteredCategories = computed(() => {
 async function handleSubmit() {
   // Réinitialiser les erreurs
   validationErrors.value = {}
-
+  isLoading.value = true
 
   // Nettoyer les données (enlever les espaces avant/après)
   const data = {
     nom: form.value.nom?.trim() || '',
     description: form.value.description?.trim() || ''
+    
   }
-}
-if (editingIndex.value === null) {
+  if (editingIndex.value === null) {
   // AJOUT
   axios.post('http://127.0.0.1:8000/api/categories', data).then((res) => {
     categoriebd.value.push(res.data.data || res.data)
@@ -248,11 +248,9 @@ if (editingIndex.value === null) {
 else {
   // MODIFICATION
   const id = categoriebd.value[editingIndex.value]?.id
-  if (!id) return 
+  if (!id) return
 
   axios.put(`http://127.0.0.1:8000/api/categories/${id}`, data), then((res) => {
-      const id = categoriebd.value[editingIndex.value]?.id
-  if (!id) return
     categoriebd.value[editingIndex.value] = res.data.data || res.data
     showNotification('success', 'Catégorie modifiée avec succès')
     resetForm()
@@ -268,6 +266,8 @@ else {
 
   })
 }
+}
+
 
 
 function editCategorie(index) {

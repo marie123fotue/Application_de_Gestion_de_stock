@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserCustomerStore } from '@/stores/user'
+import Logo from '@/components/logo.vue'
 
 const router = useRouter()
 const userStore = useUserCustomerStore()
@@ -30,13 +31,13 @@ function seConnecter() {
 
 <template>
   <div class="flex justify-center items-center h-screen">
-    <div class="flex flex-col justify-center items-left shadow-xl rounded-[15px] p-2 w-[300px] h-fit border-[1px] border-pink-700">
+    <div class="flex flex-col justify-center items-left shadow-xl rounded-[15px] gap-1  w-[300px] h-fit border-[1px] border-pink-700">
 
       <div class="flex flex-col justify-center items-center text-center">
-        <p class="font-semi-bold text-2xl underline">
+        <!-- <p class="font-semi-bold text-2xl underline">
           <span class="text-pink-700 font-bold">S</span>e
           <span class="text-pink-700 font-bold"> C</span>onnecter
-        </p>
+        </p> -->
         <Logo />
       </div>
 
